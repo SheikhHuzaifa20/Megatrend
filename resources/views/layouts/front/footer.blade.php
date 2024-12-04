@@ -169,7 +169,7 @@
                                         <input type="number" value="{{ $item['quantity'] }}" name="quantity"
                                             class="input_qty form-control"
                                             style="width: 41% !important; margin-top: 10px;" min="1"
-                                            data-product-price="{{ $item['price'] }}">
+                                            data-product-price="{{ $item['price'] }}" readonly>
                                     </p>
                                 </div>
                             </div>
