@@ -62,3 +62,5 @@ Route::post('/signout', function () {
 })->name('signout');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
+
+Route::get('/cart_item/{id}', [OrderController::class, 'cart_item'])->name('cart_item');

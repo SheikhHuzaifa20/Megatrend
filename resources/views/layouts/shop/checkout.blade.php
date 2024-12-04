@@ -1,20 +1,21 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="container my-5">
-        <div class="row align-items-center">
-            <form action="{{ route('order.place') }}" method="POST" id="order-place">
-                @csrf
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <div>
+<div class="container my-5">
+    <div class="row align-items-center">
+        <form action="{{ route('order.place') }}" method="POST" id="order-place">
+            @csrf
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            <div class="row">
+                <div class="col-lg-12">
                     <h1>Billing Address</h1>
                     <!-- Ensure all form fields have the correct names matching the validation rules -->
                     <div class="mb-3">
@@ -24,7 +25,7 @@
 
                     <div class="mb-3">
                         <label for="adress" class="form-label">Address</label>
-                        <input style="color: black" type="text" name="adress" id="adress" class="form-control">
+                        <input style="color: black" type="text" name="address" id="adress" class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -53,7 +54,50 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <h1>YOUR ORDER</h1>
+                    <h1>Your Order</h1>
+                    <div class="my-5">
+                        <div class="calculate-item">
+                            @php
+                            $cart = Session::get('cart', []);
+                            $total = 0;
+                            @endphp
+
+                            @if (!empty($cart))
+                            @foreach ($cart as $key => $item)
+                            @php
+                            $productId = $item['id'] ?? null;
+                            $total += $item['price'] * $item['quantity'];
+                            @endphp
+
+                            <div class="item-count" style="display: flex;">
+
+                                <h6>Product Name:</h6><b>{{ $item['product_title']}}</b>
+
+                            </div>
+                            <div class="item-count" style="display: flex;">
+
+                                <h6>Price:</h6><b>{{ $item['price'] }}</b>
+
+                            </div>
+                            <div class="item-count" style="display: flex;">
+
+                                <h6>Quantity:</h6><b>{{ $item['quantity'] }}</b>
+
+                            </div>
+                            @endforeach
+                            <div class="item-count" style="display: flex;">
+
+                                <h6>Total: $</h6><b>{{ $total }}</b>
+
+                            </div>
+                            @endif
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h1>Pay Pal</h1>
                     <div class="card my-5">
                         <div class="card-header" id="headingTwo">
                             <h5 class="mb-0">
@@ -73,21 +117,24 @@
                                     <div id="card-errors" role="alert"></div>
                                     <div class="form-group">
                                         {{-- <a href="{{route('remove_cart', $item['id'])}}" class="PaYmEnT btn btn-red btn-block" type="button" id="stripe-submit">Pay
-                                            Now $</a> --}}
-                                            <button class="PaYmEnT btn btn-red btn-block" type="button" id="stripe-submit">Pay
-                                                Now $</button>
+                                        Now $</a> --}}
+                                        
+                                        <button class="PaYmEnT btn btn-danger btn-block" type="button" id="stripe-submit">Pay
+                                            Now $</button>
                                     </div>
+                                    
 
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
-
-
-        </div>
+            </div>
     </div>
+</div>
+</form>
+
+
+</div>
+</div>
 @endsection
-
-
